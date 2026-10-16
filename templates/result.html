@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Analysis Result | FakeJobDetector</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .result-hero {
+            display: block;
+            min-height: auto;
+            padding: 50px 5%;
+            background: #faf9ff;
+        }
+
+        .result-container {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .result-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .result-label {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 25px;
+            background: #eae5ff;
+            color: #4e35c7;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .result-heading h1 {
+            margin: 15px 0 8px;
+            color: #30264f;
+            font-size: clamp(28px, 4vw, 40px);
+        }
+
+        .result-heading p {
+            color: #625d75;
+            line-height: 1.7;
+        }
+
+        .result-card {
+            padding: 30px;
+            background: white;
+            border: 1px solid #e6e0fb;
+            border-radius: 22px;
+            box-shadow: 0 12px 35px rgba(56, 39, 105, 0.09);
+        }
+
+        .prediction-panel {
+            padding: 28px 20px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .prediction-fake {
+            background: #fff1f1;
+            border: 1px solid #ffd5d5;
+        }
+
+        .prediction-genuine {
+            background: #effaf3;
+            border: 1px solid #ccebd5;
+        }
+
+        .result-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .prediction-panel h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .prediction-fake h2 {
+            color: #b42332;
+        }
+
+        .prediction-genuine h2 {
+            color: #187443;
+        }
+
+        .prediction-panel p {
+            max-width: 570px;
+            margin: auto;
+            color: #514b67;
+            line-height: 1.8;
+        }
+
+        .result-section {
+            padding: 23px 0;
+            border-bottom: 1px solid #eee9f8;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .section-title span {
+            font-size: 22px;
+        }
+
+        .section-title h3 {
+            color: #3d315f;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .risk-panel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 18px;
+            border-radius: 12px;
+            font-size: 17px;
+        }
+
+        .risk-high {
+            background: #fff0f0;
+            color: #b42332;
+        }
+
+        .risk-medium {
+            background: #fff6e7;
+            color: #925300;
+        }
+
+        .risk-low {
+            background: #f0edff;
+            color: #4e35c7;
+        }
+
+        .risk-dot {
+            width: 11px;
+            height: 11px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .small-note {
+            margin-top: 10px;
+            color: #716b83;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .job-description {
+            padding: 17px;
+            border: 1px solid #e6e0fb;
+            border-radius: 12px;
+            background: #faf9ff;
+            color: #393151;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .red-flag-list {
+            display: grid;
+            gap: 12px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .red-flag-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #eee6ff;
+            border-radius: 11px;
+            background: #fcfbff;
+            color: #514b67;
+            line-height: 1.8;
+        }
+
+        .flag-symbol {
+            display: flex;
+            flex: 0 0 23px;
+            width: 23px;
+            height: 23px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #eee8ff;
+            color: #5941d5;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .safety-panel {
+            padding: 22px;
+            margin-top: 24px;
+            border: 1px solid #dcd2ff;
+            border-radius: 15px;
+            background: #f4f1ff;
+        }
+
+        .safety-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .safety-title h3 {
+            margin: 0;
+            color: #5140d8;
+        }
+
+        .safety-title span {
+            font-size: 23px;
+        }
+
+        .safety-panel p {
+            margin: 0;
+            color: #49435f;
+            line-height: 1.9;
+        }
+
+        .result-actions {
+            padding-top: 27px;
+            text-align: center;
+        }
+
+        .primary-button {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #785cf5, #583bdc);
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 5px 14px rgba(101, 72, 237, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(101, 72, 237, 0.28);
+        }
+
+        .result-actions p {
+            margin-top: 16px;
+            color: #716b83;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            .result-hero {
+                padding: 30px 5%;
+            }
+
+            .result-card {
+                padding: 18px;
+                border-radius: 16px;
+            }
+
+            .prediction-panel {
+                padding: 22px 14px;
+            }
+
+            .prediction-panel h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🛡 FakeJobDetector</div>
+        <div>
+            <a href="/">Home</a>
+            <a href="/#about">About</a>
+            <a href="/#tips">Safety Tips</a>
+        </div>
+    </nav>
+
+    <!-- Result Page -->
+    <section class="result-hero">
+        <div class="result-container">
+
+            <div class="result-heading">
+                <span class="result-label">JOB OFFER ANALYSIS</span>
+                <h1>Your Analysis Result</h1>
+                <p>Review the result and warning signs below.</p>
+            </div>
+
+            <div class="result-card">
+
+                <!-- AI Prediction -->
+                <div class="prediction-panel {% if result == 'Fake' %}prediction-fake{% else %}prediction-genuine{% endif %}">
+
+                    {% if result == "Fake" %}
+                        <div class="result-icon">⚠️</div>
+                        <h2>Suspicious Job Offer</h2>
+                        <p>
+                            Our AI model classified this offer as Fake.
+                            Verify the employer carefully before proceeding.
+                        </p>
+                    {% else %}
+                        <div class="result-icon">🔎</div>
+                        <h2>Classified as Genuine</h2>
+                        <p>
+                            Our AI model classified this offer as Genuine.
+                            Verify the employer independently before accepting it.
+                        </p>
+                    {% endif %}
+
+                </div>
+
+                <!-- Risk Assessment -->
+                <div class="result-section">
+
+                    <div class="section-title">
+                        <span>📊</span>
+                        <h3>Risk Assessment</h3>
+                    </div>
+
+                    <div class="risk-panel risk-{{ risk_level|lower }}">
+                        <span class="risk-dot"></span>
+
+                        {% if risk_level == "High" %}
+                            <strong>High Risk</strong>
+                        {% elif risk_level == "Medium" %}
+                            <strong>Medium Risk</strong>
+                        {% else %}
+                            <strong>Low Risk</strong>
+                        {% endif %}
+                    </div>
+
+                    <p class="small-note">
+                        This risk level is based on detected warning phrases.
+                        It does not prove whether a job is genuine or fake.
+                    </p>
+
+                </div>
+
+                <!-- Job Description -->
+                <div class="result-section">
+
+                    <div class="section-title">
+                        <span>📄</span>
+                        <h3>Job Description</h3>
+                    </div>
+
+                    <div class="job-description">{{ job }}</div>
+
+                </div>
+
+                <!-- Red Flags -->
+                <div class="result-section">
+
+                    <div class="section-title">
+                        <span>🚩</span>
+                        <h3>Warning Signs to Check</h3>
+                    </div>
+
+                    <ul class="red-flag-list">
+                        {% for flag in flags %}
+                            <li>
+                                <span class="flag-symbol">!</span>
+                                <span>{{ flag }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+
+                <!-- Safety Tips -->
+                <div class="safety-panel">
+
+                    <div class="safety-title">
+                        <span>💡</span>
+                        <h3>Stay Safe</h3>
+                    </div>
+
+                    <p>
+                        Never pay unexpected recruitment fees. Check the
+                        company's official website and verify its contact
+                        details. Never share passwords or OTPs with recruiters.
+                    </p>
+
+                </div>
+
+                <!-- Back Button -->
+                <div class="result-actions">
+                    <a href="/" class="primary-button">
+                        ← Check Another Job
+                    </a>
+
+                    <p>
+                        This tool provides an initial screening, not a final
+                        verdict. Always verify job offers independently.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        🛡 FakeJobDetector | Stay Informed • Stay Safe • Build Your Future 💜
+    </footer>
+
+</body>
+</html>

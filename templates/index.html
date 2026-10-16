@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeJobDetector</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🛡 FakeJobDetector</div>
+        <div>
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+            <a href="#tips">Safety Tips</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="content">
+            <h1>Welcome to <span>FakeJobDetector</span></h1>
+
+            <p class="subtitle">
+                Don't get fooled by fake job offers.
+                Enter a job description and let our AI
+                check for suspicious signs.
+            </p>
+
+            <div class="form-card">
+                <form action="/predict" method="post">
+                    <label for="job">📄 Enter Job Description</label>
+
+                    <textarea
+                        id="job"
+                        name="job"
+                        maxlength="1000"
+                        placeholder="Paste your job or internship offer here..."
+                        required></textarea>
+
+                    <button type="submit">
+                        🔍 Check Job Offer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+
+        <div class="feature">
+            <div style="font-size:32px;">🤖</div>
+            <h3>AI Detection</h3>
+            <p>Analyze job descriptions using our AI model.</p>
+        </div>
+
+        <div class="feature">
+            <div style="font-size:32px;">🛡️</div>
+            <h3>Find Red Flags</h3>
+            <p>Learn about suspicious fees and false promises.</p>
+        </div>
+
+        <div class="feature">
+            <div style="font-size:32px;">💡</div>
+            <h3>Safety Tips</h3>
+            <p>Learn ways to stay safe while job hunting.</p>
+        </div>
+
+        <div class="feature">
+            <div style="font-size:32px;">💬</div>
+            <h3>Chatbot Support</h3>
+            <p>Get answers to common job scam questions.</p>
+        </div>
+
+    </section>
+     
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <h2>How FakeJobDetector Works</h2>
+    <p class="section-description">
+        Check a job offer in three simple steps.
+    </p>
+
+    <div class="steps-grid">
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Paste Job Details</h3>
+            <p>Copy and paste the job or internship description.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Check the Offer</h3>
+            <p>Submit the description to analyse possible warning signs.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Review the Result</h3>
+            <p>Review the prediction and safety tips before proceeding.</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Chatbot Section -->
+    <section style="padding:40px 7%; max-width:900px; margin:auto;">
+        <div class="form-card">
+            <h2 style="color:#ffffff; background:#6548ed; padding:15px 20px; border-radius:12px; margin-bottom:15px;">
+    💬 FakeJobDetector Assistant
+          </h2>
+
+            <p style="margin:15px 0; color:#48445e; line-height:1.8;">
+                Ask questions about fake jobs, internships, or company verification.
+            </p>
+
+            <form action="/chat" method="post">
+                <textarea
+                    name="message"
+                    placeholder="Example: How can I identify a fake job?"
+                    required>{{ chat_message|default('') }}</textarea>
+
+                <button type="submit">Ask Chatbot</button>
+            </form>
+
+           
+{% if chat_answer %}
+    <div style="margin-top:22px; padding:20px; background:#f0edff; border:1px solid #dcd2ff; border-radius:14px;">
+        <strong style="color:#5140d8;">🤖 Assistant's Response</strong>
+        <p style="margin-top:10px; color:#393151; line-height:1.8;">
+            {{ chat_answer }}
+        </p>
+    </div>
+{% endif %}
+
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" style="padding:30px 7%; max-width:1000px; margin:auto;">
+        <div style="background:#f0edff; padding:30px; border-radius:18px; border:1px solid #d8d0ff;">
+
+            <h2 style="color:#5140d8; text-align:center; margin-bottom:20px;">
+                About FakeJobDetector
+            </h2>
+
+            <p style="color:#38334f; line-height:1.8; text-align:center;">
+                FakeJobDetector is a student project that helps people identify
+                possible fake job and internship offers. It uses an AI model
+                to analyse job descriptions and highlights warning signs such
+                as registration fees and unrealistic promises.
+            </p>
+
+            <p style="color:#38334f; line-height:1.8; text-align:center; margin-top:15px;">
+                <strong>Our Mission:</strong> To help students and job seekers
+                recognise possible recruitment scams and make safer decisions.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- Safety Tips Section -->
+    <section id="tips" style="padding:30px 7%; max-width:1000px; margin:auto;">
+
+        <h2 style="text-align:center; color:#5140d8; margin-bottom:25px;">
+            🛡️ Safety Tips for Job Seekers
+        </h2>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:18px;">
+
+            <div style="background:#f0edff; color:#38334f; padding:22px; border-radius:15px; border:1px solid #d8d0ff; box-shadow:0 4px 12px rgba(67,48,120,0.08);">
+                <h3 style="color:#5140d8;">💰 Avoid Payment Requests</h3>
+                <p style="color:#38334f; line-height:1.8; margin-top:10px;">
+                    Be careful if an employer asks you to pay registration or interview fees.
+                </p>
+            </div>
+
+            <div style="background:#f0edff; color:#38334f; padding:22px; border-radius:15px; border:1px solid #d8d0ff; box-shadow:0 4px 12px rgba(67,48,120,0.08);">
+                <h3 style="color:#5140d8;">🏢 Verify the Company</h3>
+                <p style="color:#38334f; line-height:1.8; margin-top:10px;">
+                    Check the company's official website and careers page before applying.
+                </p>
+            </div>
+
+            <div style="background:#f0edff; color:#38334f; padding:22px; border-radius:15px; border:1px solid #d8d0ff; box-shadow:0 4px 12px rgba(67,48,120,0.08);">
+                <h3 style="color:#5140d8;">🔐 Protect Your Details</h3>
+                <p style="color:#38334f; line-height:1.8; margin-top:10px;">
+                    Do not share passwords, OTPs, or sensitive information with unknown people.
+                </p>
+            </div>
+
+            <div style="background:#f0edff; color:#38334f; padding:22px; border-radius:15px; border:1px solid #d8d0ff; box-shadow:0 4px 12px rgba(67,48,120,0.08);">
+                <h3 style="color:#5140d8;">⚠️ Check Job Offers</h3>
+                <p style="color:#38334f; line-height:1.8; margin-top:10px;">
+                    Be cautious of unrealistic salaries, urgent requests, and guaranteed job promises.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        FakeJobDetector | Stay Informed • Stay Safe • Build Your Future 💜
+    </footer>
+
+</body>
+</html>
